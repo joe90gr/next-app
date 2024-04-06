@@ -1,35 +1,51 @@
 pipeline {
-    agent any
+    agent none
+    tools {nodejs "NODEJS"}
 
     stages {
         stage('Checkout') {
+            agent { 
+                label 'agent1'
+            }
             steps {
-                git 'https://github.com/joe90gr/next-app'
+                git branch: 'main', url: 'https://github.com/joe90gr/next-app'
             }
         }
         
         stage('Install dependencies') {
+            agent { 
+                label 'agent1'
+            }
             steps {
                 // Install Node.js and npm
-                sh 'curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
-                sh 'sudo apt-get install -y nodejs'
+                // sh 'curl -sL https://deb.nodesource.com/setup_14.x | bash -'
+                // sh 'apt-get install -y nodejs'
                 sh 'npm install'
             }
         }
 
         stage('Build') {
+            agent { 
+                label 'agent1'
+            }
             steps {
                 sh 'npm run build'
             }
         }
 
         stage('Test') {
+            agent { 
+                label 'agent1'
+            }
             steps {
-                sh 'npm run test'
+                sh 'npm run lint'
             }
         }
 
         stage('Deploy') {
+            agent { 
+                label 'agent1'
+            }
             steps {
                 sh 'echo deploy'
                 // Deploy your application
@@ -40,12 +56,12 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            sh 'echo always'
-            // Cleanup steps if necessary
-            // Example:
-            // sh 'npm ci'  // Use npm ci for clean install
-        }
-    }
+    // post {
+    //     always {
+    //         sh 'echo always'
+    //         // Cleanup steps if necessary
+    //         // Example:
+    //         // sh 'npm ci'  // Use npm ci for clean install
+    //     }
+    // }
 }
