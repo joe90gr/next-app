@@ -31,6 +31,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                sh 'echo deploy'
                 // Deploy your application
                 // This might involve copying built files to a server, or deploying to a cloud platform
                 // Example:
@@ -41,6 +42,7 @@ pipeline {
 
     post {
         always {
+            sh 'echo always'
             // Cleanup steps if necessary
             // Example:
             // sh 'npm ci'  // Use npm ci for clean install
