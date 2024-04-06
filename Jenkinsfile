@@ -17,9 +17,6 @@ pipeline {
                 label 'agent1'
             }
             steps {
-                // Install Node.js and npm
-                // sh 'curl -sL https://deb.nodesource.com/setup_14.x | bash -'
-                // sh 'apt-get install -y nodejs'
                 sh 'npm install'
             }
         }
@@ -29,7 +26,14 @@ pipeline {
                 label 'agent1'
             }
             steps {
-                sh 'npm run build'
+                parallel(
+                    a: {
+                        sh 'npm run build'
+                    },
+                    b: {
+                        sh 'echo something elso'
+                    }
+                )
             }
         }
 
